@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const awsHelper = require('./aws-helpers');
-
+const path = require('path');
 const run = async () => {
   try {
     const path_to_json = core.getInput('path_to_json');
@@ -15,7 +15,7 @@ const run = async () => {
 
     let envConfigsFile = null;
     try {
-      envConfigsFile = require(path_to_json);
+      envConfigsFile = require(path.join(process.env.GITHUB_WORKSPACE, path_to_json));
     } catch (error) {
       return core.setFailed(
         `There were problems trying to read the file ${path_to_json} in ${__dirname}: ${error.message}`
