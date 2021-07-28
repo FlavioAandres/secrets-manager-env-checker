@@ -5,17 +5,19 @@ const run = async () => {
   try {
     const path_to_json = core.getInput('path_to_json');
     const aws_secret_name = core.getInput('aws_secret_name');
-    const { AWS_EKS_ACCESS_KEY: accessKeyId, AWS_EKS_SECRET_KEY: secretAccessKey } = process.env;
+    const accessKeyId = core.getInput('AWS_EKS_ACCESS_KEY'),
+      secretAccessKey = core.getInput('AWS_EKS_SECRET_KEY');
 
     if (!path_to_json || !aws_secret_name || !accessKeyId || !secretAccessKey) {
-      core.setFailed('No environments or parameters were received. Please check the documentation.');
+      core.warning(`${path_to_json + aws_secret_name + accessKeyId + secretFromAWS}`);
+      return core.setFailed('No environments or parameters were received. Please check the documentation.');
     }
 
     let envConfigsFile = null;
     try {
       envConfigsFile = require(path_to_json);
     } catch (error) {
-      return core.setFailed(`There were problems trying to read the file ${aws_secret_name} `);
+      return core.setFailed(`There were problems trying to read the file ${aws_secret_name}: ${error.message}`);
     }
     const environmentsByUser = Object.keys(envConfigsFile);
 
