@@ -17,7 +17,9 @@ const run = async () => {
     try {
       envConfigsFile = require(path_to_json);
     } catch (error) {
-      return core.setFailed(`There were problems trying to read the file ${aws_secret_name}: ${error.message}`);
+      return core.setFailed(
+        `There were problems trying to read the file ${path_to_json} in ${__dirname}: ${error.message}`
+      );
     }
     const environmentsByUser = Object.keys(envConfigsFile);
 
