@@ -10,10 +10,10 @@ inputs:
   aws_secret_name: 
     required: true
     description: 'AWS Secret name to compare with your json file'
-  AWS_EKS_ACCESS_KEY: 
+  AWS_ACCESS_KEY: 
     description: 'your AWS access key with the necessary permissions'
     required: true
-  AWS_EKS_SECRET_KEY: 
+  AWS_SECRET_KEY: 
     description: 'your AWS secret key with the necessary permissions'
     required: true
 

@@ -5,8 +5,8 @@ const run = async () => {
   try {
     const path_to_json = core.getInput('path_to_json');
     const aws_secret_name = core.getInput('aws_secret_name');
-    const accessKeyId = core.getInput('AWS_EKS_ACCESS_KEY'),
-      secretAccessKey = core.getInput('AWS_EKS_SECRET_KEY');
+    const accessKeyId = core.getInput('AWS_ACCESS_KEY'),
+      secretAccessKey = core.getInput('AWS_SECRET_KEY');
 
     if (!path_to_json || !aws_secret_name || !accessKeyId || !secretAccessKey) {
       core.warning(`${path_to_json + aws_secret_name + accessKeyId + secretFromAWS}`);
