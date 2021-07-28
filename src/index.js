@@ -29,7 +29,7 @@ const run = async () => {
     });
 
     const environmentsOnAWS = Object.keys(secretFromAWS);
-    const missingEnvs = environmentsByUser.filter((env) => environmentsOnAWS.includes(env));
+    const missingEnvs = environmentsByUser.filter((env) => !environmentsOnAWS.includes(env));
 
     if (missingEnvs.length) {
       core.setFailed(`Missing environment vars on AWS. Missing Result ${missingEnvs.join(', ')}`);
