@@ -17,7 +17,7 @@ The action will compare the keys in your json file and they'll be compared again
 
 ```yaml
     steps:
-      - uses: flavioaandres/secrets-manager-env-checker@v1
+      - uses: flavioaandres/secrets-manager-env-checker@v2
         with: 
           path_to_json: './broker-ui/.requiredenvs.json' #File to compare
           aws_secret_name: prod/compliance/engine/brokerui 
