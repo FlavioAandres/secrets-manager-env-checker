@@ -1,0 +1,25 @@
+name: 'secrets-manager-env-checker'
+description: 'This action gets your environment vars and map them into a secret file to apply in your EKS Cluster'
+branding:
+  icon: check-circle
+  color: orange
+inputs:
+  path_to_json:
+    required: true
+    description: 'Relative route to your config file. It should be a JSON file with the keys to check'
+  aws_secret_name: 
+    required: true
+    description: 'AWS Secret name to compare with your json file'
+  AWS_EKS_ACCESS_KEY: 
+    description: 'your AWS access key with the necessary permissions'
+    required: true
+  AWS_EKS_SECRET_KEY: 
+    description: 'your AWS secret key with the necessary permissions'
+    required: true
+
+outputs:
+  success:
+    description: 'the generated secret in a string format'
+runs:
+  using: 'node12'
+  main: './dist/index.js'

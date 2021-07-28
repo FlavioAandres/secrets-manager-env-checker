@@ -1,0 +1,42 @@
+const core = require('@actions/core');
+const awsHelper = require('./aws-helpers');
+
+const run = async () => {
+  try {
+    const path_to_json = core.getInput('path_to_json');
+    const aws_secret_name = core.getInput('aws_secret_name');
+    const { AWS_EKS_ACCESS_KEY: accessKeyId, AWS_EKS_SECRET_KEY: secretAccessKey } = process.env;
+
+    if (!path_to_json || !aws_secret_name || !accessKeyId || !secretAccessKey) {
+      core.setFailed('No environments or parameters were received. Please check the documentation.');
+    }
+
+    let envConfigsFile = null;
+    try {
+      envConfigsFile = require(path_to_json);
+    } catch (error) {
+      return core.setFailed(`There were problems trying to read the file ${aws_secret_name} `);
+    }
+    const environmentsByUser = Object.keys(envConfigsFile);
+
+    const secretFromAWS = await awsHelper.getSecretsCredentialsFrom(aws_secret_name, {
+      accessKeyId,
+      secretAccessKey,
+    });
+
+    const environmentsOnAWS = Object.keys(secretFromAWS);
+    const missingEnvs = environmentsByUser.filter((env) => environmentsOnAWS.includes(env));
+
+    if (missingEnvs.length) {
+      core.setFailed(`Missing environment vars on AWS. Missing Result ${missingEnvs.join(', ')}`);
+    }
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+};
+
+if (process.env.NODE_ENV !== 'test') {
+  run();
+}
+
+module.exports.run = run;
